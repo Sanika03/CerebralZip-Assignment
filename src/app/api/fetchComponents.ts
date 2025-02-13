@@ -1,11 +1,15 @@
 import axios from "axios";
 
-const BASE_URL = "http://3.111.196.92:8020/api/v1";
+const isLocal = typeof window !== "undefined" && window.location.hostname === "localhost";
+const BASE_URL = isLocal
+  ? "http://3.111.196.92:8020/api/v1"  
+  : "/api/proxy"; 
+
 const AUTH = { username: "trial", password: "assignment123" };
 
 async function fetchComponentData(endpoint: string) {
   try {
-    const response = await axios.get(`${BASE_URL}${endpoint}`, { auth: AUTH});
+    const response = await axios.get(`${BASE_URL}${endpoint}`, { auth: AUTH });
     return response.data;
   } catch (error) {
     console.error(`Error fetching ${endpoint}:`, error);
