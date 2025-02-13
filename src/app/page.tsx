@@ -10,10 +10,10 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
-  const router = useRouter(); // Fix: useRouter instead of redirect
+  const router = useRouter(); 
 
   const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault(); // Fix: Prevent default form submission
+    e.preventDefault(); 
 
     try {
       const response = await fetch("http://3.111.196.92:8020/api/v1/login/", {
@@ -30,11 +30,12 @@ const Login = () => {
 
       const data = await response.json();
       console.log(data);
-      if (response.ok && response.message !== "Incorrect Username") {
+
+      if (response.ok && data.message !== "Incorrect Username") {
         localStorage.setItem("token", data);
-        router.push("/dashboard"); // Fix: Use router.push instead of redirect
+        router.push("/dashboard");
       } else {
-        alert("Invalid credentials");
+        alert(`Login failed: ${data.message}`);
       }
     } catch (error) {
       console.error("Login failed", error);
